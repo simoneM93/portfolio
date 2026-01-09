@@ -4,15 +4,17 @@ import Link from "next/link";
 interface HeaderProps {
     title: string;
     subTitle: string;
+    showHomeButton?: boolean;
 }
 
-export default function Header({ title, subTitle }: HeaderProps) {
+export default function Header({ title, subTitle, showHomeButton = true }: HeaderProps) {
     return (
         <div className="text-center mb-24 animate-in fade-in-30 duration-1000">
+            {showHomeButton &&
             <Link href="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold mb-8 group">
                 <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
                 Home
-            </Link>
+            </Link>}
             <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
                 {title}
             </h1>

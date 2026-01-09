@@ -20,7 +20,7 @@ export default async function ContactPage() {
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <Header
-          title="Contattami"
+          title="Contact Me"
           subTitle="Pronto per progetti enterprise .NET, Salesforce, MuleSoft o React/Next.js."
         />
 
@@ -31,10 +31,10 @@ export default async function ContactPage() {
               <CardHeader className="pb-6">
                 <CardTitle className="flex items-center gap-3 text-2xl">
                   <FaPhoneAlt className="h-8 w-8 text-primary" />
-                  Contatti Diretti
+                  Direct Contact
                 </CardTitle>
                 <CardDescription>
-                  Raggiungimi su email o messaging istantaneo
+                  Reach me on email or chat
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -46,7 +46,7 @@ export default async function ContactPage() {
                   <div>
                     <p className="font-semibold text-foreground">Email</p>
                     <a
-                      href="mailto:simone@example.com"
+                      href={`mailto:${profile.Contact.email}`}
                       className="text-primary hover:underline font-medium"
                     >
                       {profile.Contact.email}
@@ -60,9 +60,9 @@ export default async function ContactPage() {
                     <FaPhoneAlt className="h-6 w-6 text-emerald-500" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Telefono</p>
+                    <p className="font-semibold text-foreground">Phone</p>
                     <a
-                      href="tel:+393xxxxxxxxx"
+                      href={`tel:${profile.Contact.phone}`}
                       className="text-emerald-500 hover:underline font-medium"
                     >
                       {profile.Contact.phone}
@@ -82,7 +82,7 @@ export default async function ContactPage() {
                   Social & Messaging
                 </CardTitle>
                 <CardDescription>
-                  Contattami anche su piattaforme social
+                  Contact me on social platforms too
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">

@@ -1,7 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
-import { CategorySkills } from "@/lib/firebase/types/skills";
+import { CategorySkills, Certification } from "@/lib/firebase/types/skills";
 import { getSkills } from "@/lib/firebase/firestore-api";
+import Image from "next/image";
+import ViewCertButton from "@/components/skills/ViewCertButton";
+import PdfModalProvider from "@/components/PdfModalProvider";
 
 // const skillsData = [
 //   // Languages Core
@@ -151,15 +154,44 @@ import { getSkills } from "@/lib/firebase/firestore-api";
 //   },
 // ];
 
+// const certifications = [
+//   {
+//     "name": "Salesforce Commerce Cloud Developer 1",
+//     "icon": "🛒",
+//     "level": 95,
+//     "color": "bg-blue-600/20 border-blue-600/40",
+//     "issuer": "Salesforce",
+//     "date": "2025-12",
+//     "certUrl": "https://trust.salesforce.com/#cert"
+//   },
+//   {
+//     "name": "MuleSoft Developer 1 (in corso)",
+//     "icon": "🔗",
+//     "level": 97,
+//     "color": "bg-orange-500/20 border-orange-500/40",
+//     "issuer": "MuleSoft",
+//     "date": "2026-01",
+//     "certUrl": "#"
+//   }
+// ]
+
 export default async function SkillsPage() {
   const skills: CategorySkills[] = await getSkills();
+
+  const certifications: Certification[] = skills
+    .flatMap(category =>
+      category.skills
+        .filter(skill => skill.certifications && skill.certifications.length > 0)
+        .flatMap(skill => skill.certifications!)
+    )
+    .sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime())
 
   return (
     <div className="min-h-screen py-24 px-4 bg-background">
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <Header
-          title="Full-Stack Skills"
+          title="Skills"
           subTitle="**20+ tecnologie**<br/>Certificazione Salesforce Commerce Cloud Developer 1.<br/>Backend .NET/C#, frontend React/Next.js, integrazioni scalabili."
         />
 
@@ -168,17 +200,16 @@ export default async function SkillsPage() {
           {skills.map((group, idx) => (
             <div
               key={group.category}
-              className={`space-y-6 animate-in fade-in-50 slide-in-from-bottom-4 p-6 rounded-2xl border border-border/30 hover:border-primary/50 bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-500 ${
-                idx === 0
-                  ? "duration-200"
-                  : idx === 1
+              className={`space-y-6 animate-in fade-in-50 slide-in-from-bottom-4 p-6 rounded-2xl border border-border/30 hover:border-primary/50 bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-500 ${idx === 0
+                ? "duration-200"
+                : idx === 1
                   ? "duration-400"
                   : idx === 2
-                  ? "duration-600"
-                  : idx === 3
-                  ? "duration-800"
-                  : "duration-1000"
-              }`}
+                    ? "duration-600"
+                    : idx === 3
+                      ? "duration-800"
+                      : "duration-1000"
+                }`}
             >
               {/* Categoria */}
               <div className="flex items-center gap-3 pb-4 border-b border-border/50">
@@ -232,19 +263,70 @@ export default async function SkillsPage() {
           ))}
         </div>
 
-        {/* CTA Progetti */}
-        {/* <div className="text-center mb-24 animate-in fade-in-70 duration-1000">
-          <Button
-            size="lg"
-            asChild
-            className="group gap-3 text-xl px-12 py-8 shadow-2xl"
-          >
-            <Link href="/projects">
-              Progetti con Queste Skills
-              <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
-            </Link>
-          </Button>
-        </div> */}
+        {/* Certifications Grid */}
+        <Header
+          title="Certifications"
+          subTitle=""
+          showHomeButton={false}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20">
+          {certifications.map((cert, idx) => (
+            <div
+              key={cert.name}
+              className={`group relative overflow-hidden rounded-2xl p-8 border-2 border-border/30 hover:border-primary/60 bg-linear-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 hover:-translate-y-2 animate-in fade-in-30 slide-in-from-bottom-2 delay-${idx * 100}`}
+            >
+              {/* Background Gradient */}
+              <div className={`absolute inset-0 ${cert.color} opacity-20 group-hover:opacity-40 transition-opacity`} />
+
+              {/* Icon Emoji */}
+              <div className="relative z-10 mb-6 p-4 transition-all mx-auto w-20 h-20">
+                <Image
+                  src={cert.icon_url}
+                  alt={cert.name}
+                  fill
+                  priority
+                  sizes="80px"
+                  className="object-cover brightness-110 saturate-110 rounded-xl"
+                />
+              </div>
+
+              {/* Nome Certificazione */}
+              <h4 className="text-xl font-bold text-foreground mb-3 text-center relative z-10 leading-tight">
+                {cert.name}
+              </h4>
+
+              {/* Dettagli */}
+              <div className="space-y-2 mb-8 relative z-10 text-center text-sm text-muted-foreground">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-lg">🏆</span>
+                  {cert.issuer}
+                </div>
+                <div className="flex items-center justify-center gap-2 text-xs opacity-75">
+                  <span>📅</span>
+                  {cert.issued}
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="relative z-10 pt-4 flex flex-col gap-3 ">
+
+                {/* Verifica */}
+                <a
+                  href={cert.certUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 px-3 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-primary/20 backdrop-blur-sm text-sm text-center"
+                >
+                  🔍 Verify on {cert.issuer}
+                </a>
+
+                {/* Visualizza PDF */}
+                <ViewCertButton pdfUrl={cert.pdf_url} certName={cert.name} iconUrl={cert.icon_url}/>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

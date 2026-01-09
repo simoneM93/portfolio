@@ -119,7 +119,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+body.overflow-hidden,
+html.overflow-hidden {
+  padding-right: var(--scrollbar-width, 0px);
+  margin-right: var(--scrollbar-width, 0px);
+}
+
+@layer utilities {
+  .overscroll-none {
+    overscroll-behavior: none;
   }
 }
