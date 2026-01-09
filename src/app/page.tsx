@@ -14,7 +14,7 @@ export default function Hero() {
         <div className="space-y-6 md:text-left animate-in fade-in-50 duration-1000">
           {/* Intro */}
           <p className="text-sm font-medium text-primary tracking-[0.25em] uppercase animate-in slide-in-from-top-2 duration-700">
-            Ciao, sono
+            Hi, I'm
           </p>
 
           {/* Headline */}
@@ -37,10 +37,10 @@ export default function Hero() {
               <Link href="/projects">Guarda i progetti</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/contact">Contattami</Link>
+              <Link href="/contact">Contact Me</Link>
             </Button>
             <Button variant="ghost" size="lg" asChild>
-              <Link href="/skills">Skills</Link>
+              <Link href="/skills">Skills & Certifications</Link>
             </Button>
           </div>
 
