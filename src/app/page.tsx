@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Hero() {
   return (
@@ -19,7 +18,7 @@ export default function Hero() {
           </p>
 
           {/* Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent leading-tight animate-in slide-in-from-bottom-2 duration-1000">
+          <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent leading-tight animate-in slide-in-from-bottom-2 duration-1000">
             Simone Marano<br />
             <span className="text-2xl md:text-4xl md:block font-normal text-muted-foreground animate-in slide-in-from-bottom-4 duration-1200">
               Full-Stack Developer
@@ -58,10 +57,10 @@ export default function Hero() {
         {/* Colonna Immagine */}
         <div className="hidden md:flex justify-end animate-in fade-in-70 slide-in-from-right-10 duration-1500">
           <div className="relative w-96 h-96 group">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl blur-xl animate-pulse" />
-            <div className="relative w-full h-full bg-gradient-to-br from-card to-muted/30 rounded-3xl flex flex-col items-center justify-center border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500 overflow-hidden">
+            <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-secondary/10 rounded-3xl blur-xl animate-pulse" />
+            <div className="relative w-full h-full bg-linear-to-br from-card to-muted/30 rounded-3xl flex flex-col items-center justify-center border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500 overflow-hidden">
               {/* Avatar */}
-              <div className="w-72 h-72 rounded-2xl overflow-hidden relative bg-gradient-to-br from-muted to-card/50">
+              <div className="w-72 h-72 rounded-2xl overflow-hidden relative bg-linear-to-br from-muted to-card/50">
                 {/* Placeholder professionale - sostituisci con tua foto */}
                 {/* <Image
                   src="/api/placeholder/288/288?text=SM"

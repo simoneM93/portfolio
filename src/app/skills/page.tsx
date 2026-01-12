@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, ArrowLeft, SquareArrowOutUpLeft, ArrowBigDown, ArrowBigUp, ArrowUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 
 const skillsData = [
@@ -76,13 +76,13 @@ export default function SkillsPage() {
             >
               {/* Categoria */}
               <div className="flex items-center gap-3 pb-4 border-b border-border/50">
-                <div className="w-2 h-8 bg-gradient-to-b from-primary to-secondary rounded-full" />
+                <div className="w-2 h-8 bg-linear-to-b from-primary to-secondary rounded-full" />
                 <h3 className="text-xl font-bold text-foreground">{group.category}</h3>
               </div>
 
               {/* Skills */}
               <div className="space-y-4">
-                {group.skills.sort((a, b) => b.level - a.level).map((skill, sIdx) => (
+                {group.skills.sort((a, b) => b.level - a.level).map((skill) => (
                   <div key={skill.name} className="group">
                     <div className="flex justify-between items-center mb-2">
                       <span className="flex items-center gap-2 font-semibold text-foreground">
@@ -91,7 +91,7 @@ export default function SkillsPage() {
                       </span>
                       <div className="flex items-center gap-1">
                         {skill.cert && (
-                          <Badge variant="secondary" className="text-xs bg-gradient-to-r from-orange-500/20 to-blue-500/20 border-orange-500/40 px-2.5 py-1 font-semibold shadow-md">
+                          <Badge variant="secondary" className="text-xs bg-linear-to-r from-orange-500/20 to-blue-500/20 border-orange-500/40 px-2.5 py-1 font-semibold shadow-md">
                             Developer 1 Cert
                           </Badge>
                         )}
@@ -103,7 +103,7 @@ export default function SkillsPage() {
                     {/* Progress Bar */}
                     <div className="w-full bg-muted/50 rounded-full h-2.5 group-hover:h-3 transition-all duration-500 overflow-hidden shadow-sm">
                       <div
-                        className={`h-full rounded-full bg-gradient-to-r from-primary to-secondary shadow-md ${skill.color} transition-all duration-700`}
+                        className={`h-full rounded-full bg-linear-to-r from-primary to-secondary shadow-md ${skill.color} transition-all duration-700`}
                         style={{ width: `${skill.level}%` }}
                       />
                     </div>
