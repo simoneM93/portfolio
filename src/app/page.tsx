@@ -1,65 +1,94 @@
-import Image from "next/image";
+'use client';
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-export default function Home() {
+export default function Hero() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center px-4 py-20 bg-background text-foreground scroll-mt-20"
+    >
+      <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center max-w-6xl">
+        {/* Colonna Testo */}
+        <div className="space-y-6 md:text-left animate-in fade-in-50 duration-1000">
+          {/* Intro */}
+          <p className="text-sm font-medium text-primary tracking-[0.25em] uppercase animate-in slide-in-from-top-2 duration-700">
+            Ciao, sono
           </p>
+
+          {/* Headline */}
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent leading-tight animate-in slide-in-from-bottom-2 duration-1000">
+            Simone Marano<br />
+            <span className="text-2xl md:text-4xl md:block font-normal text-muted-foreground animate-in slide-in-from-bottom-4 duration-1200">
+              Full-Stack Developer
+            </span>
+          </h1>
+
+          {/* Descrizione */}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed animate-in slide-in-from-bottom-6 duration-1400">
+            Sviluppo applicazioni web performanti con Next.js, TypeScript e Stripe,
+            creando esperienze veloci e orientate al business per startup e PMI.
+          </p>
+
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 animate-in slide-in-from-bottom-8 duration-1600">
+            <Button size="lg" asChild>
+              <Link href="/projects">Guarda i progetti</Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/contact">Contattami</Link>
+            </Button>
+            <Button variant="ghost" size="lg" asChild>
+              <Link href="/skills">Skills</Link>
+            </Button>
+          </div>
+
+          {/* Tech Stack */}
+          <div className="flex flex-wrap gap-2 pt-4 text-sm">
+            <span className="px-3 py-1.5 rounded-full border bg-card/40 hover:bg-primary/10">.NET Core</span>
+            <span className="px-3 py-1.5 rounded-full border bg-card/40 hover:bg-primary/10">C#</span>
+            <span className="px-3 py-1.5 rounded-full border bg-card/40 hover:bg-primary/10">Salesforce Commerce Cloud</span>
+            <span className="px-3 py-1.5 rounded-full border bg-card/40 hover:bg-primary/10">MuleSoft</span>
+            <span className="px-3 py-1.5 rounded-full border bg-card/40 hover:bg-primary/10">React/Next.js</span>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Colonna Immagine */}
+        <div className="hidden md:flex justify-end animate-in fade-in-70 slide-in-from-right-10 duration-1500">
+          <div className="relative w-96 h-96 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl blur-xl animate-pulse" />
+            <div className="relative w-full h-full bg-gradient-to-br from-card to-muted/30 rounded-3xl flex flex-col items-center justify-center border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500 overflow-hidden">
+              {/* Avatar */}
+              <div className="w-72 h-72 rounded-2xl overflow-hidden relative bg-gradient-to-br from-muted to-card/50">
+                {/* Placeholder professionale - sostituisci con tua foto */}
+                {/* <Image
+                  src="/api/placeholder/288/288?text=SM"
+                  alt="Simone Marano"
+                  width={288}
+                  height={288}
+                  priority
+                  className="object-cover brightness-110 saturate-110"
+                /> */}
+              </div>
+              {/* Status */}
+              <p className="mt-4 text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium group-hover:text-primary transition-colors">
+                Available for remote work
+              </p>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <Link
+        href="#projects"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-60 hover:opacity-100 transition-opacity"
+        aria-label="Scorri ai progetti"
+      >
+        <ChevronDown className="h-8 w-8 text-muted-foreground" />
+      </Link>
+    </section>
   );
 }
