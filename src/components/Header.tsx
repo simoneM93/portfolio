@@ -13,7 +13,7 @@ export default function Header({ title, subTitle }: HeaderProps) {
                 <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
                 Home
             </Link>
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+            <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
                 {title}
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">

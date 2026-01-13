@@ -7,7 +7,7 @@ interface CertBadgeProps {
 
 export function CertBadge({ cert, issuer }: CertBadgeProps) {
   return (
-    <Badge variant="secondary" className="bg-gradient-to-r from-orange-500/20 to-blue-500/20 border border-orange-500/40 text-xs font-semibold">
+    <Badge variant="secondary" className="bg-linear-to-r from-orange-500/20 to-blue-500/20 border border-orange-500/40 text-xs font-semibold">
       <span className="mr-1">📜</span>
       {cert} ({issuer})
     </Badge>
