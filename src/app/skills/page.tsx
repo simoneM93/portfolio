@@ -1,10 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
-import { CategorySkills, Certification } from "@/lib/firebase/types/skills";
-import { getSkills } from "@/lib/firebase/firestore-api";
 import Image from "next/image";
 import ViewCertButton from "@/components/skills/ViewCertButton";
-import PdfModalProvider from "@/components/PdfModalProvider";
+import { getCategoriesWithSkillsAndCerts } from "@/lib/neon/restservice";
+import { CategoryWithSkillsAndCerts, Certification } from "@/lib/neon/types/schema";
 
 // const skillsData = [
 //   // Languages Core
@@ -176,9 +175,9 @@ import PdfModalProvider from "@/components/PdfModalProvider";
 // ]
 
 export default async function SkillsPage() {
-  const skills: CategorySkills[] = await getSkills();
+  const categoryWithSkillsAndCerts: CategoryWithSkillsAndCerts[] = await getCategoriesWithSkillsAndCerts();
 
-  const certifications: Certification[] = skills
+  const certifications: Certification[] = categoryWithSkillsAndCerts
     .flatMap(category =>
       category.skills
         .filter(skill => skill.certifications && skill.certifications.length > 0)
@@ -192,14 +191,14 @@ export default async function SkillsPage() {
         {/* Header */}
         <Header
           title="Skills"
-          subTitle="**20+ tecnologie**<br/>Certificazione Salesforce Commerce Cloud Developer 1.<br/>Backend .NET/C#, frontend React/Next.js, integrazioni scalabili."
+          subTitle=""
         />
 
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {skills.map((group, idx) => (
+          {categoryWithSkillsAndCerts.map((group, idx) => (
             <div
-              key={group.category}
+              key={group.category.id}
               className={`space-y-6 animate-in fade-in-50 slide-in-from-bottom-4 p-6 rounded-2xl border border-border/30 hover:border-primary/50 bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-500 ${idx === 0
                 ? "duration-200"
                 : idx === 1
@@ -215,21 +214,21 @@ export default async function SkillsPage() {
               <div className="flex items-center gap-3 pb-4 border-b border-border/50">
                 <div className="w-2 h-8 bg-linear-to-b from-primary to-secondary rounded-full" />
                 <h3 className="text-xl font-bold text-foreground">
-                  {group.category}
+                  {group.category.name}
                 </h3>
               </div>
 
               {/* Skills */}
               <div className="space-y-4">
                 {group.skills
-                  .sort((a, b) => b.level - a.level)
-                  .map((skill) => (
-                    <div key={skill.name} className="group">
+                  .sort((a, b) => b.skill.level - a.skill.level)
+                  .map((item) => (
+                    <div key={item.skill.name} className="group">
                       <div className="flex justify-between items-center mb-2">
                         <span className="flex items-center gap-2 font-semibold text-foreground">
                           {/* <span className="text-lg">{skill.icon}</span> */}
                           <span className="text-lg"></span>
-                          {skill.name}
+                          {item.skill.name}
                         </span>
                         <div className="flex items-center gap-1">
                           {/* {skill.certifications.length > 0 && (
@@ -244,7 +243,7 @@ export default async function SkillsPage() {
                             variant="outline"
                             className="text-xs px-2.5 py-1"
                           >
-                            {skill.level}%
+                            {item.skill.level}%
                           </Badge>
                         </div>
                       </div>
@@ -253,7 +252,7 @@ export default async function SkillsPage() {
                         <div
                           // className={`h-full rounded-full bg-linear-to-r from-primary to-secondary shadow-md ${skill.color} transition-all duration-700`}
                           className={`h-full rounded-full bg-linear-to-r from-primary to-secondary shadow-md transition-all duration-700`}
-                          style={{ width: `${skill.level}%` }}
+                          style={{ width: `${item.skill.level}%` }}
                         />
                       </div>
                     </div>
@@ -313,7 +312,7 @@ export default async function SkillsPage() {
 
                 {/* Verifica */}
                 <a
-                  href={cert.certUrl}
+                  href={cert.verify_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 px-3 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-primary/20 backdrop-blur-sm text-sm text-center"

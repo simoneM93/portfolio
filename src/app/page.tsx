@@ -1,9 +1,12 @@
-'use client';
 import { Button } from '@/components/ui/button';
+import { getProfile, getSkills } from '@/lib/neon/restservice';
+import { Profile, Skill } from '@/lib/neon/types/schema';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
-export default function Hero() {
+export default async function Hero() {
+  const profile: Profile = await getProfile();
+  
   return (
     <section
       id="hero"
@@ -19,7 +22,7 @@ export default function Hero() {
 
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent leading-tight animate-in slide-in-from-bottom-2 duration-1000">
-            Simone Marano<br />
+            {profile.name} {profile.surname}<br />
             <span className="text-2xl md:text-4xl md:block font-normal text-muted-foreground animate-in slide-in-from-bottom-4 duration-1200">
               Full-Stack Developer
             </span>
@@ -27,14 +30,15 @@ export default function Hero() {
 
           {/* Descrizione */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed animate-in slide-in-from-bottom-6 duration-1400">
-            Sviluppo applicazioni web performanti con Next.js, TypeScript e Stripe,
-            creando esperienze veloci e orientate al business per startup e PMI.
+            Full-stack developer passionate about <strong>Next.js</strong>, <strong>TypeScript</strong> and
+            <strong> .Net Core</strong>. I build scalable applications and handle backend integrations.
           </p>
+
 
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4 animate-in slide-in-from-bottom-8 duration-1600">
             <Button size="lg" asChild>
-              <Link href="/projects">Guarda i progetti</Link>
+              <Link href="/projects">Show My Projects</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
               <Link href="/contact">Contact Me</Link>

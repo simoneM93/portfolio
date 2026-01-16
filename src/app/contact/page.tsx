@@ -9,11 +9,11 @@ import { FaPhoneAlt, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa6";
 import { BiLogoGmail } from "react-icons/bi";
 import Header from "@/components/Header";
-import { getProfile } from "@/lib/firebase/firestore-api";
-import { Profile } from "@/lib/firebase/types/profile";
+import { getContact } from "@/lib/neon/restservice";
+import type { Contact } from "@/lib/neon/types/schema";
 
 export default async function ContactPage() {
-  const profile: Profile = await getProfile();
+  const contact: Contact = await getContact();
 
   return (
     <div className="min-h-screen py-24 px-4 bg-background">
@@ -21,7 +21,11 @@ export default async function ContactPage() {
         {/* Header */}
         <Header
           title="Contact Me"
-          subTitle="Pronto per progetti enterprise .NET, Salesforce, MuleSoft o React/Next.js."
+          subTitle={
+            <>
+              Expert <strong>.NET</strong> | <strong>Salesforce</strong> | <strong>MuleSoft</strong> | <strong>React/Next.js</strong>.
+            </>
+          }
         />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -46,10 +50,10 @@ export default async function ContactPage() {
                   <div>
                     <p className="font-semibold text-foreground">Email</p>
                     <a
-                      href={`mailto:${profile.Contact.email}`}
+                      href={`mailto:${contact.email}`}
                       className="text-primary hover:underline font-medium"
                     >
-                      {profile.Contact.email}
+                      {contact.email}
                     </a>
                   </div>
                 </div>
@@ -62,10 +66,10 @@ export default async function ContactPage() {
                   <div>
                     <p className="font-semibold text-foreground">Phone</p>
                     <a
-                      href={`tel:${profile.Contact.phone}`}
+                      href={`tel:${contact.phone}`}
                       className="text-emerald-500 hover:underline font-medium"
                     >
-                      {profile.Contact.phone}
+                      {contact.phone}
                     </a>
                   </div>
                 </div>
@@ -88,8 +92,8 @@ export default async function ContactPage() {
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
                 {/* LinkedIn */}
                 <a
-                  href={profile.Contact.linkedin_url}
-                  className="group p-6 rounded-2xl bg-linear-to-br from-blue-500/10 to-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
+                  href={contact.linkedin_url}
+                  className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -101,8 +105,8 @@ export default async function ContactPage() {
 
                 {/* WhatsApp */}
                 <a
-                  href={profile.Contact.whatsapp_url}
-                  className="group p-6 rounded-2xl bg-linear-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/20 hover:border-emerald-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
+                  href={contact.whatsapp_url}
+                  className="group p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/20 hover:border-emerald-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -114,8 +118,8 @@ export default async function ContactPage() {
 
                 {/* Telegram */}
                 <a
-                  href={profile.Contact.telegram_url}
-                  className="group p-6 rounded-2xl bg-linear-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
+                  href={contact.telegram_url}
+                  className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -127,8 +131,8 @@ export default async function ContactPage() {
 
                 {/* Instagram */}
                 <a
-                  href={profile.Contact.instagram_url}
-                  className="group p-6 rounded-2xl bg-linear-to-br from-pink-500/10 to-purple-500/10 border border-pink-500/20 hover:border-pink-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
+                  href={contact.instagram_url}
+                  className="group p-6 rounded-2xl bg-gradient-to-br from-pink-500/10 to-purple-500/10 border border-pink-500/20 hover:border-pink-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -140,8 +144,8 @@ export default async function ContactPage() {
 
                 {/* Facebook */}
                 <a
-                  href={profile.Contact.facebook_url}
-                  className="group p-6 rounded-2xl bg-linear-to-br from-blue-600/10 to-blue-700/10 border border-blue-600/20 hover:border-blue-600/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
+                  href={contact.facebook_url}
+                  className="group p-6 rounded-2xl bg-gradient-to-br from-blue-600/10 to-blue-700/10 border border-blue-600/20 hover:border-blue-600/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

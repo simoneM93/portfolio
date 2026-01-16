@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface HeaderProps {
     title: string;
-    subTitle: string;
+    subTitle: React.ReactNode;
     showHomeButton?: boolean;
 }
 
@@ -19,9 +19,7 @@ export default function Header({ title, subTitle, showHomeButton = true }: Heade
                 {title}
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                {subTitle.split('<br/>').map((line, i) => (
-                    <span key={i} className="block">{line}</span>
-                ))}
+                {subTitle}
             </p>
         </div>
     );
