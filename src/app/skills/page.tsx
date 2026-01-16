@@ -1,9 +1,12 @@
-import { Badge } from "@/components/ui/badge";
-import Header from "@/components/Header";
 import Image from "next/image";
+
+import Header from "@/components/Header";
+import { Badge } from "@/components/ui/badge";
 import ViewCertButton from "@/components/skills/ViewCertButton";
-import { getCategoriesWithSkillsAndCerts } from "@/lib/neon/restservice";
-import { CategoryWithSkillsAndCerts, Certification } from "@/lib/neon/types/schema";
+import { getCategoriesWithSkillsAndCerts } from "@/server/queries/skill";
+
+import type { Certification } from "@/server/schema/certification";
+import type { CategoryWithSkillsAndCerts } from "@/server/types/CategoryWithSkillsAndCerts";
 
 // const skillsData = [
 //   // Languages Core
@@ -173,6 +176,8 @@ import { CategoryWithSkillsAndCerts, Certification } from "@/lib/neon/types/sche
 //     "certUrl": "#"
 //   }
 // ]
+
+export const revalidate = 3600;
 
 export default async function SkillsPage() {
   const categoryWithSkillsAndCerts: CategoryWithSkillsAndCerts[] = await getCategoriesWithSkillsAndCerts();

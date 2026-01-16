@@ -1,16 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { BiLogoGmail } from "react-icons/bi";
 import { FaPhoneAlt, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa6";
-import { BiLogoGmail } from "react-icons/bi";
+
 import Header from "@/components/Header";
-import { getContact } from "@/lib/neon/restservice";
-import type { Contact } from "@/lib/neon/types/schema";
+import type { Contact } from "@/server/schema/contact";
+import { getContact } from "@/server/queries/contact";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
+
+export const revalidate = 3600;
 
 export default async function ContactPage() {
   const contact: Contact = await getContact();

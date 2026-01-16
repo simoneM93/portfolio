@@ -1,8 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { getProfile, getSkills } from '@/lib/neon/restservice';
-import { Profile, Skill } from '@/lib/neon/types/schema';
-import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { getProfile } from '@/server/queries/profile';
+
+import type { Profile } from '@/server/schema/profile';
+
+export const revalidate = 86400;
 
 export default async function Hero() {
   const profile: Profile = await getProfile();

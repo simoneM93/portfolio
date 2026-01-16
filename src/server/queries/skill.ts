@@ -1,32 +1,10 @@
-import { db } from "./db";
-import { Categories, CategoryWithSkillsAndCerts, Certifications, Contact, Contacts, Profile, Profiles, ProfileWithContact, Skill, Skills } from "./types/schema";
-import { eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
-export async function getProfile(): Promise<Profile> {
-    return (await db.select().from(Profiles))[0];
-};
-
-export async function getContact(): Promise<Contact> {
-    return (await db.select().from(Contacts))[0];
-};
-
-export async function getProfileWithContact(): Promise<ProfileWithContact> {
-    const result = await db
-        .select({
-            profile: Profiles,
-            contact: Contacts,
-        })
-        .from(Profiles)
-        .leftJoin(Contacts, eq(Profiles.id, Contacts.profile_id))
-        .limit(1);
-
-    const profileWithContact = result[0];
-
-    return {
-        profile: profileWithContact.profile,
-        contact: profileWithContact.contact ?? null
-    };
-}
+import { db } from "../db";
+import { Categories } from "../schema/category";
+import { Skill, Skills } from "../schema/skill";
+import { Certifications } from "../schema/certification";
+import { CategoryWithSkillsAndCerts } from "../types/CategoryWithSkillsAndCerts";
 
 export async function getSkills({ limit }: { limit: number }): Promise<Skill[]> {
     return await db.select().from(Skills).limit(limit);
@@ -37,7 +15,6 @@ export async function getCategoriesWithSkillsAndCerts(): Promise<CategoryWithSki
 
     const result = await Promise.all(
         categories.map(async (category) => {
-            // Skills di questa category
             const skills = await db
                 .select()
                 .from(Skills)
