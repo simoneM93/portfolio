@@ -1,4 +1,6 @@
-import { eq } from 'drizzle-orm';
+import "server-only";
+
+import { unstable_cache } from "next/cache";
 
 import { db } from "../db";
 import { Categories } from "../schema/category";
@@ -6,36 +8,44 @@ import { Skill, Skills } from "../schema/skill";
 import { Certifications } from "../schema/certification";
 import { CategoryWithSkillsAndCerts } from "../types/CategoryWithSkillsAndCerts";
 
-export async function getSkills({ limit }: { limit: number }): Promise<Skill[]> {
-    return await db.select().from(Skills).limit(limit);
-};
+export const getSkills = unstable_cache(
+    async ({ limit }: { limit: number }): Promise<Skill[]> => {
+        return db.select().from(Skills).limit(limit);
+    },
+    ["skills-list"],
+    {
+        tags: ["skills"],
+    }
+);
 
-export async function getCategoriesWithSkillsAndCerts(): Promise<CategoryWithSkillsAndCerts[]> {
-    const categories = await db.select().from(Categories).orderBy(Categories.order);
+export const getCategoriesWithSkillsAndCerts = unstable_cache(
+    async (): Promise<CategoryWithSkillsAndCerts[]> => {
+        const categories = await db
+            .select()
+            .from(Categories)
+            .orderBy(Categories.order);
 
-    const result = await Promise.all(
-        categories.map(async (category) => {
-            const skills = await db
-                .select()
-                .from(Skills)
-                .where(eq(Skills.category_id, category.id));
+        const skills = await db.select().from(Skills);
+        const certifications = await db.select().from(Certifications);
 
-            const skillsWithCerts = await Promise.all(
-                skills.map(async (skill) => ({
-                    skill,
-                    certifications: await db
-                        .select()
-                        .from(Certifications)
-                        .where(eq(Certifications.skill_id, skill.id))
-                }))
+        return categories.map((category) => {
+            const categorySkills = skills.filter(
+                (s) => s.category_id === category.id
             );
 
             return {
                 category,
-                skills: skillsWithCerts
+                skills: categorySkills.map((skill) => ({
+                    skill,
+                    certifications: certifications.filter(
+                        (c) => c.skill_id === skill.id
+                    ),
+                })),
             };
-        })
-    );
-
-    return result;
-}
+        });
+    },
+    ["categories-with-skills-and-certs"],
+    {
+        tags: ["categories", "skills", "certifications"],
+    }
+);
