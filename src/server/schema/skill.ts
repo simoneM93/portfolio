@@ -7,6 +7,8 @@ export const Skills = portfolio.table('skills', {
     level: integer('level').notNull(),
     name: text('name').notNull(),
     category_id: uuid('category_id'),
+    icon_name: text('icon_name'),
+    icon_color: text('icon_color'),
 });
 
 export type Skill = InferSelectModel<typeof Skills>;

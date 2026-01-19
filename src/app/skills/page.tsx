@@ -7,6 +7,7 @@ import { getCategoriesWithSkillsAndCerts } from "@/server/queries/skill";
 
 import type { Certification } from "@/server/schema/certification";
 import type { CategoryWithSkillsAndCerts } from "@/server/types/CategoryWithSkillsAndCerts";
+import { DynamicIcon } from "@/components/skills/DynamicIcon";
 
 // const skillsData = [
 //   // Languages Core
@@ -231,19 +232,11 @@ export default async function SkillsPage() {
                     <div key={item.skill.name} className="group">
                       <div className="flex justify-between items-center mb-2">
                         <span className="flex items-center gap-2 font-semibold text-foreground">
-                          {/* <span className="text-lg">{skill.icon}</span> */}
+                          <DynamicIcon iconName={item.skill.icon_name} className="text-3xl" style={{ color: item.skill.icon_color ?? "white" }} />
                           <span className="text-lg"></span>
                           {item.skill.name}
                         </span>
                         <div className="flex items-center gap-1">
-                          {/* {skill.certifications.length > 0 && (
-                            <Badge
-                              variant="secondary"
-                              className="text-xs bg-linear-to-r from-orange-500/20 to-blue-500/20 border-orange-500/40 px-2.5 py-1 font-semibold shadow-md"
-                            >
-                              Developer 1 Cert
-                            </Badge>
-                          )} */}
                           <Badge
                             variant="outline"
                             className="text-xs px-2.5 py-1"
@@ -252,10 +245,8 @@ export default async function SkillsPage() {
                           </Badge>
                         </div>
                       </div>
-                      {/* Progress Bar */}
                       <div className="w-full bg-muted/50 rounded-full h-2.5 group-hover:h-3 transition-all duration-500 overflow-hidden shadow-sm">
                         <div
-                          // className={`h-full rounded-full bg-linear-to-r from-primary to-secondary shadow-md ${skill.color} transition-all duration-700`}
                           className={`h-full rounded-full bg-linear-to-r from-primary to-secondary shadow-md transition-all duration-700`}
                           style={{ width: `${item.skill.level}%` }}
                         />
@@ -326,7 +317,7 @@ export default async function SkillsPage() {
                 </a>
 
                 {/* Visualizza PDF */}
-                <ViewCertButton pdfUrl={cert.pdf_url} certName={cert.name} iconUrl={cert.icon_url}/>
+                <ViewCertButton pdfUrl={cert.pdf_url} certName={cert.name} iconUrl={cert.icon_url} />
               </div>
             </div>
           ))}
