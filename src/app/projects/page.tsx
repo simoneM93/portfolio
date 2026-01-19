@@ -53,15 +53,13 @@ export default async function ProjectsPage() {
                     title="Projects"
                     subTitle={
                         <>
-                            A selection of <strong>open-source</strong> and{" "}
-                            <strong>professional</strong> projects built with modern
+                            A selection of <strong>professional</strong> projects built with modern
                             technologies.
                         </>
                     }
                 />
 
                 <div className="grid lg:grid-cols-3 gap-12 items-start">
-                    {/* Projects list */}
                     <div className="lg:col-span-2 space-y-8 animate-in fade-in-50 duration-700">
                         {repos.map((repo) => (
                             <Card
@@ -79,7 +77,6 @@ export default async function ProjectsPage() {
                                 </CardHeader>
 
                                 <CardContent className="space-y-4">
-                                    {/* Meta */}
                                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                                         {repo.languages &&
                                             Object.entries(repo.languages).map(([language, usage_bytes]) => {
@@ -101,7 +98,6 @@ export default async function ProjectsPage() {
                                             })}
                                     </div>
 
-                                    {/* Topics */}
                                     {repo.topics?.length > 0 && (
                                         <div className="flex flex-wrap gap-2">
                                             {repo.topics.map((topic) => (
@@ -115,14 +111,12 @@ export default async function ProjectsPage() {
                                         </div>
                                     )}
 
-                                    {/* Actions */}
                                     <div className="flex gap-6 pt-2">
                                         <a
                                             href={repo.html_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-lg 
-             text-primary font-medium transition-all duration-300 hover:scale-[1.05] group"
+                                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-lg text-primary font-medium transition-all duration-300 hover:scale-[1.05] group"
                                         >
                                             View Repository
                                             <FiExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
@@ -133,9 +127,7 @@ export default async function ProjectsPage() {
                         ))}
                     </div>
 
-                    {/* Sidebar */}
                     <div className="space-y-6 animate-in fade-in-70 duration-1000">
-                        {/* GitHub stats */}
                         <Card className="border-border/50 shadow-xl">
                             <CardHeader>
                                 <CardTitle>GitHub Overview</CardTitle>
