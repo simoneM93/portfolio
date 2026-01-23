@@ -1,3 +1,5 @@
+import { RepoLanguages } from "./language";
+
 export interface GitHubRepo {
     id: number;
     name: string;
@@ -11,4 +13,9 @@ export interface GitHubRepo {
     forks_count: number;
     topics: string[];
     updated_at: string;
+}
+
+export interface GitHubRepoWithLanguages extends GitHubRepo {
+  languages: RepoLanguages;
+  totalBytes: number;
 }

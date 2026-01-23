@@ -7,176 +7,8 @@ import { getCategoriesWithSkillsAndCerts } from "@/server/queries/skill";
 
 import type { Certification } from "@/server/schema/certification";
 import type { CategoryWithSkillsAndCerts } from "@/server/types/CategoryWithSkillsAndCerts";
-import { DynamicIcon } from "@/components/skills/DynamicIcon";
-
-// const skillsData = [
-//   // Languages Core
-//   {
-//     category: "Languages",
-//     skills: [
-//       {
-//         name: "C#",
-//         level: 98,
-//         color: "bg-purple-500/20 border-purple-500/40",
-//         icon: "⚡",
-//       },
-//       {
-//         name: "C / C++",
-//         level: 93,
-//         color: "bg-gray-600/20 border-gray-600/40",
-//         icon: "🚀",
-//       },
-//       {
-//         name: "JavaScript / TypeScript",
-//         level: 89,
-//         color: "bg-yellow-500/20 border-yellow-500/40",
-//         icon: "📜",
-//       },
-//       {
-//         name: "Java",
-//         level: 70,
-//         color: "bg-orange-400/20 border-orange-400/40",
-//         icon: "☕",
-//       },
-//     ],
-//   },
-//   // Frontend Stack
-//   {
-//     category: "Frontend",
-//     skills: [
-//       {
-//         name: "React",
-//         level: 90,
-//         color: "bg-teal-500/20 border-teal-500/40",
-//         icon: "⚛️",
-//       },
-//       {
-//         name: "Next.js",
-//         level: 88,
-//         color: "bg-black/20 border-black/40",
-//         icon: "🚀",
-//       },
-//       {
-//         name: "Tailwind CSS",
-//         level: 80,
-//         color: "bg-indigo-500/20 border-indigo-500/40",
-//         icon: "🎨",
-//       },
-//       {
-//         name: "CSS / SCSS",
-//         level: 82,
-//         color: "bg-pink-500/20 border-pink-500/40",
-//         icon: "💅",
-//       },
-//       {
-//         name: "HTML5",
-//         level: 84,
-//         color: "bg-orange-500/20 border-orange-500/40",
-//         icon: "🔤",
-//       },
-//       {
-//         name: "Bootstrap",
-//         level: 85,
-//         color: "bg-purple-600/20 border-purple-600/40",
-//         icon: "🅱️",
-//       },
-//     ],
-//   },
-//   // Backend & Database ⭐ CERTS
-//   {
-//     category: "Backend & DB",
-//     skills: [
-//       {
-//         name: ".NET Framework / Core",
-//         level: 96,
-//         color: "bg-blue-500/20 border-blue-500/40",
-//         icon: "🔧",
-//       },
-//       {
-//         name: "Node.js",
-//         level: 90,
-//         color: "bg-green-500/20 border-green-500/40",
-//         icon: "🟢",
-//       },
-//       {
-//         name: "SQL / MySQL",
-//         level: 93,
-//         color: "bg-cyan-500/20 border-cyan-500/40",
-//         icon: "🗄️",
-//       },
-//       {
-//         name: "Supabase / Firebase",
-//         level: 91,
-//         color: "bg-pink-500/20 border-pink-500/40",
-//         icon: "☁️",
-//       },
-//     ],
-//   },
-//   // Enterprise ⭐ CERTS EVIDENZIATE
-//   {
-//     category: "Enterprise",
-//     skills: [
-//       {
-//         name: "MuleSoft",
-//         level: 97,
-//         color: "bg-orange-500/20 border-orange-500/40",
-//         icon: "🔗",
-//       },
-//       {
-//         name: "Salesforce Commerce Cloud",
-//         level: 95,
-//         color: "bg-blue-600/20 border-blue-600/40",
-//         icon: "🛒",
-//         cert: true,
-//       },
-//     ],
-//   },
-//   // DevOps & Tools
-//   {
-//     category: "DevOps & Tools",
-//     skills: [
-//       {
-//         name: "Git / GitHub / BitBucket",
-//         level: 96,
-//         color: "bg-gray-800/20 border-gray-800/40",
-//         icon: "📦",
-//       },
-//       {
-//         name: "Azure DevOps",
-//         level: 90,
-//         color: "bg-blue-400/20 border-blue-400/40",
-//         icon: "☁️",
-//       },
-//       {
-//         name: "Atlassian (Jira/Confluence)",
-//         level: 88,
-//         color: "bg-blue-700/20 border-blue-700/40",
-//         icon: "📋",
-//       },
-//     ],
-//   },
-// ];
-
-// const certifications = [
-//   {
-//     "name": "Salesforce Commerce Cloud Developer 1",
-//     "icon": "🛒",
-//     "level": 95,
-//     "color": "bg-blue-600/20 border-blue-600/40",
-//     "issuer": "Salesforce",
-//     "date": "2025-12",
-//     "certUrl": "https://trust.salesforce.com/#cert"
-//   },
-//   {
-//     "name": "MuleSoft Developer 1 (in corso)",
-//     "icon": "🔗",
-//     "level": 97,
-//     "color": "bg-orange-500/20 border-orange-500/40",
-//     "issuer": "MuleSoft",
-//     "date": "2026-01",
-//     "certUrl": "#"
-//   }
-// ]
+import { DynamicIcon } from "@/components/DynamicIcon";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export const revalidate = 3600;
 
@@ -259,11 +91,7 @@ export default async function SkillsPage() {
         </div>
 
         {/* Certifications Grid */}
-        <Header
-          title="Certifications"
-          subTitle=""
-          showHomeButton={false}
-        />
+        <Header title="Certifications" subTitle="" showHomeButton={false} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20">
           {certifications.map((cert, idx) => (
@@ -323,6 +151,7 @@ export default async function SkillsPage() {
           ))}
         </div>
       </div>
+      <ScrollToTopButton />
     </div>
   );
 }
