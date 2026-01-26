@@ -6,8 +6,19 @@ import Header from "@/components/Header";
 import type { Contact } from "@/server/schema/contact";
 import { getContact } from "@/server/queries/contact";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
+import { Metadata } from "next";
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Contact - Simone Marano Full-Stack Developer",
+  description:
+    "Contact me for Next.js, .NET Core or MuleSoft integration projects. Available for remote work from Catania, Sicily.",
+  openGraph: {
+    title: "Contact Me | Simone Marano - Full-Stack Developer",
+    description: "Hire Simone Marano for enterprise full-stack development.",
+  },
+};
 
 export default async function ContactPage() {
   const contact: Contact = await getContact();

@@ -8,8 +8,20 @@ import type { Profile } from '@/server/schema/profile';
 import Experience from '@/components/expiriences/Experience';
 import ScrollIndicator from '@/components/ScrollIndicator';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
+import { Metadata } from 'next';
 
 export const revalidate = 86400;
+
+export const metadata: Metadata = {
+  title: "Simone Marano - Full-Stack Developer",
+  description:
+    "Simone Marano, Full-Stack Developer specialized in Next.js, TypeScript and .NET Core. Portfolio of projects, skills and certifications.",
+  openGraph: {
+    title: "Simone Marano - Full-Stack Developer | Portfolio",
+    description:
+      "Next.js, TypeScript, .NET Core, MuleSoft. Enterprise projects and scalable applications.",
+  },
+};
 
 export default async function Hero() {
   const profile: Profile = await getProfile();

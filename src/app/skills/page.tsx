@@ -9,8 +9,27 @@ import type { Certification } from "@/server/schema/certification";
 import type { CategoryWithSkillsAndCerts } from "@/server/types/CategoryWithSkillsAndCerts";
 import { DynamicIcon } from "@/components/DynamicIcon";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import { Metadata } from "next";
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Skills & Certifications - Simone Marano",
+  description:
+    "Technical skills: Next.js, React, TypeScript, .NET Core, MuleSoft, Salesforce Commerce Cloud, Tailwind CSS.",
+  keywords: [
+    "Next.js skills",
+    "Salesforce Commerce Cloud certification",
+    "TypeScript developer",
+    "Full Stack skills",
+    ".Net Core developer",
+  ],
+  openGraph: {
+    title: "Skills & Certifications | Simone Marano Portfolio",
+    description: "Complete technical stack and certifications.",
+  },
+};
+
 
 export default async function SkillsPage() {
   const categoryWithSkillsAndCerts: CategoryWithSkillsAndCerts[] = await getCategoriesWithSkillsAndCerts();
