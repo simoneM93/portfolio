@@ -2,8 +2,7 @@ import { GitHubRepoWithLanguages } from "@/server/github/types/repository";
 import { FiExternalLink } from "react-icons/fi";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { FaGithub } from "react-icons/fa";
-import languageColors from 'github-language-colors';
-type LanguageName = keyof typeof languageColors;
+import { getLanguageColor } from "@/lib/githubColors";
 
 export default function RepoCard({ repo }: { repo: GitHubRepoWithLanguages }) {
     return (
@@ -24,8 +23,8 @@ export default function RepoCard({ repo }: { repo: GitHubRepoWithLanguages }) {
             <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                     {repo.languages &&
-                        Object.entries(repo.languages).map(([language, usage_bytes]) => {
-                            const color = language in languageColors ? languageColors[language as LanguageName] : '#6b7280';
+                        Object.entries(repo.languages).map(async ([language, usage_bytes]) => {
+                            const color = await getLanguageColor(language)
                             const percentage = ((usage_bytes / repo.totalBytes) * 100).toFixed(1);
 
                             return (
