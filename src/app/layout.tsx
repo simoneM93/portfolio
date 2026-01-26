@@ -35,8 +35,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <PdfModalProvider />
         <Analytics/>
+        <PdfModalProvider />
       </body>
     </html>
   );
