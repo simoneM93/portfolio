@@ -7,31 +7,30 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { getGithubRepos } from "@/server/github/queries/repository";
-import languageColors from 'github-language-colors';
-type LanguageName = keyof typeof languageColors;
 
 import { RepoLanguages } from "@/server/github/types/language";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import RepoCard from "@/components/projects/RepoCard";
 import GitHubOverviewCard from "@/components/projects/GitHubOverviewCard";
 import { Metadata } from "next";
+import { getLanguageColor } from "@/lib/githubColors";
 
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Projects - Simone Marano Full-Stack Developer",
-  description:
-    "A selection of professional projects built with modern technologies.",
-  keywords: [
-    "Next.js projects",
-    "MuleSoft projects",
-    ".NET Core portfolio",
-    "Salesforce developer",
-  ],
-  openGraph: {
-    title: "My Projects | Simone Marano Portfolio",
-    description: "Portfolio of full-stack enterprise projects.",
-  },
+    title: "Projects - Simone Marano Full-Stack Developer",
+    description:
+        "A selection of professional projects built with modern technologies.",
+    keywords: [
+        "Next.js projects",
+        "MuleSoft projects",
+        ".NET Core portfolio",
+        "Salesforce developer",
+    ],
+    openGraph: {
+        title: "My Projects | Simone Marano Portfolio",
+        description: "Portfolio of full-stack enterprise projects.",
+    },
 };
 
 export default async function ProjectsPage() {
@@ -86,10 +85,8 @@ export default async function ProjectsPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex flex-wrap gap-2 text-sm">
-                                {aggregatedLanguageArray.map(({ language, percentage }) => {
-                                    const color = language in languageColors
-                                        ? languageColors[language as LanguageName]
-                                        : "#6b7280";
+                                {aggregatedLanguageArray.map(async ({ language, percentage }) => {
+                                    const color = await getLanguageColor(language);
 
                                     return (
                                         <span
