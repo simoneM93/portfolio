@@ -7,17 +7,32 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { getGithubRepos } from "@/server/github/queries/repository";
-import { FiExternalLink } from 'react-icons/fi';
 import languageColors from 'github-language-colors';
 type LanguageName = keyof typeof languageColors;
 
-import { FaGithub } from "react-icons/fa";
 import { RepoLanguages } from "@/server/github/types/language";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import RepoCard from "@/components/projects/RepoCard";
 import GitHubOverviewCard from "@/components/projects/GitHubOverviewCard";
+import { Metadata } from "next";
 
 export const revalidate = 86400;
+
+export const metadata: Metadata = {
+  title: "Projects - Simone Marano Full-Stack Developer",
+  description:
+    "A selection of professional projects built with modern technologies.",
+  keywords: [
+    "Next.js projects",
+    "MuleSoft projects",
+    ".NET Core portfolio",
+    "Salesforce developer",
+  ],
+  openGraph: {
+    title: "My Projects | Simone Marano Portfolio",
+    description: "Portfolio of full-stack enterprise projects.",
+  },
+};
 
 export default async function ProjectsPage() {
     const repos = await getGithubRepos();
