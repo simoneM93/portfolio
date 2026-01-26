@@ -50,7 +50,7 @@ export default function PdfIframeModal() {
                 {/* PDF Viewer - RIEMPIE 100% */}
                 <div className="flex-1 min-h-60 md:min-h-160 h-full relative">
                     <iframe
-                        src={pdfUrl}
+                        src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
                         className="absolute inset-0 w-full h-full border-0 shadow-2xl bg-linear-to-br from-muted/30 to-transparent"
                         allowFullScreen
                         loading="lazy"
