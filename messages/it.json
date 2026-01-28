@@ -1,0 +1,14 @@
+{
+    "Home": {
+        "title": "Ciao, sono",
+        "subtitle": "Full-stack developer appassionato di <strong>Next.js</strong>, <strong>TypeScript</strong> and <strong>.NET Core</strong>. Realizzo applicazioni scalabili e integrazioni backend.",
+        "btn": {
+            "projects": "I Miei Progetti",
+            "contact": "Contattami",
+            "skill": "Competenze e Certificazioni"
+        },
+        "img": {
+            "subtext": "Disponibile per lavoro da remoto"
+        }
+    }
+}

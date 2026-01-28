@@ -1,0 +1,14 @@
+{
+    "Home": {
+        "title": "Hi, I'm",
+        "subtitle": "Full-stack developer passionate about <strong>Next.js</strong>, <strong>TypeScript</strong> and <strong>.NET Core</strong>. I build scalable applications and backend integrations.",
+        "btn": {
+            "projects": "Show My Projects",
+            "contact": "Contact Me",
+            "skill": "Skill & Certifications"
+        },
+        "img": {
+            "subtext": "Open to remote opportunities"
+        }
+    }
+}

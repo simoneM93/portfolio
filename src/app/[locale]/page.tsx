@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,8 @@ import Experience from '@/components/expiriences/Experience';
 import ScrollIndicator from '@/components/ScrollIndicator';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 export const revalidate = 86400;
 
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
 
 export default async function Hero() {
   const profile: Profile = await getProfile();
+  const t = await getTranslations('Home');
 
   return (
     <>
@@ -32,10 +35,14 @@ export default async function Hero() {
         id="hero"
         className="relative min-h-screen flex items-center justify-center px-4 py-20 bg-background text-foreground scroll-mt-20"
       >
+        {/* 🔼 LANGUAGE SWITCHER TOP-RIGHT CORNER */}
+        <div className="absolute top-8 right-8 z-50">
+          <LanguageSwitcher />
+        </div>
         <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center max-w-6xl">
           <div className="space-y-6 md:text-left animate-in fade-in-50 duration-1000">
             <p className="text-sm font-medium text-primary tracking-[0.25em] uppercase">
-              Hi, I'm
+              {t('title')}
             </p>
 
             <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent leading-tight">
@@ -47,20 +54,18 @@ export default async function Hero() {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-              Full-stack developer passionate about <strong>Next.js</strong>,{' '}
-              <strong>TypeScript</strong> and <strong>.NET Core</strong>. I build
-              scalable applications and backend integrations.
+              {t.rich('subtitle', { strong: (chunks) => <strong>{chunks}</strong> })}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" asChild>
-                <Link href="/projects">Show My Projects</Link>
+                <Link href="/projects">{t('btn.projects')}</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link href="/contact">Contact Me</Link>
+                <Link href="/contact">{t('btn.contact')}</Link>
               </Button>
               <Button variant="ghost" size="lg" asChild>
-                <Link href="/skills">Skills & Certifications</Link>
+                <Link href="/skills">{t('btn.skill')}</Link>
               </Button>
             </div>
 
@@ -96,7 +101,7 @@ export default async function Hero() {
                   />
                 </div>
                 <p className="mt-4 text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                  Open to remote opportunities
+                  {t('img.subtext')}
                 </p>
               </div>
             </div>
