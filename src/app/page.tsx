@@ -77,21 +77,7 @@ export default async function Hero() {
         className="relative min-h-screen flex items-center justify-center px-4 py-20 bg-background text-foreground scroll-mt-14"
       >
         <div className="container mx-auto max-w-6xl">
-          {/* Avatar visible only on mobile, above the text */}
-          <div className="flex md:hidden justify-center mb-8">
-            <div className="w-28 h-28 rounded-full overflow-hidden ring-2 ring-border/50 shrink-0">
-              <Image
-                src={profile.image_url ?? '/profile.jpg'}
-                alt={`${profile.name} ${profile.surname} - Full-Stack Developer`}
-                width={112}
-                height={112}
-                priority
-                className="object-cover w-full h-full"
-              />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
           <div className="space-y-6 md:text-left animate-in fade-in-50 duration-1000">
             <p className="text-sm font-medium text-primary tracking-[0.25em] uppercase">
               Hi, I&apos;m
@@ -137,24 +123,30 @@ export default async function Hero() {
             </div>
           </div>
 
-          <div className="hidden md:flex justify-end">
-            <div className="relative w-96 h-96 group">
-              <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-secondary/10 rounded-3xl blur-xl" />
-              <div className="relative w-full h-full bg-linear-to-br from-card to-muted/30 rounded-3xl flex flex-col items-center justify-center border-2 border-border/50 overflow-hidden">
-                <div className="w-72 h-72 rounded-2xl overflow-hidden relative">
-                  <Image
-                    src={profile.image_url ?? '/profile.jpg'}
-                    alt={`${profile.name} ${profile.surname} - Full-Stack Developer`}
-                    width={288}
-                    height={288}
-                    priority
-                    className="object-cover"
-                  />
-                </div>
-                <p className="mt-4 text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                  Open to remote opportunities
-                </p>
+          {/* Single image: circle above the text on mobile, framed portrait on the right on desktop */}
+          <div className="order-first md:order-last flex justify-center md:justify-end">
+            <div className="group relative w-40 md:w-full md:max-w-sm aspect-square md:aspect-4/5 animate-in fade-in-50 zoom-in-95 duration-1000">
+              <div
+                aria-hidden
+                className="hidden md:block absolute inset-0 rounded-3xl border-2 border-foreground/15 translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0 motion-reduce:transition-none"
+              />
+              <div className="relative h-full w-full overflow-hidden rounded-full md:rounded-3xl ring-1 ring-border bg-muted shadow-xl">
+                <Image
+                  src={profile.image_url ?? '/profile.jpg'}
+                  alt={`${profile.name} ${profile.surname} - Full-Stack Developer`}
+                  fill
+                  sizes="(min-width: 768px) 384px, 160px"
+                  priority
+                  className="object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none"
+                />
               </div>
+              <p className="absolute -bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:-left-6 md:bottom-8 md:translate-x-0 flex items-center gap-2 whitespace-nowrap rounded-full border bg-background/90 backdrop-blur px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium shadow-md">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping motion-reduce:animate-none" />
+                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+                </span>
+                Open to remote opportunities
+              </p>
             </div>
           </div>
           </div>
