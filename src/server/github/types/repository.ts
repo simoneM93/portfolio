@@ -13,6 +13,8 @@ export interface GitHubRepo {
     forks_count: number;
     topics: string[];
     updated_at: string;
+    fork: boolean;
+    archived: boolean;
 }
 
 export interface GitHubRepoWithLanguages extends GitHubRepo {

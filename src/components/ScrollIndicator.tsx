@@ -13,7 +13,7 @@ export default function ScrollIndicator({ targetId }: { targetId: string }) {
   return (
     <button
       onClick={handleScroll}
-      aria-label="Scroll to section"
+      aria-label={`Scroll to ${targetId}`}
       className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-60 hover:opacity-100 transition-opacity hover:cursor-pointer"
     >
       <ChevronDown className="h-8 w-8 text-muted-foreground" />

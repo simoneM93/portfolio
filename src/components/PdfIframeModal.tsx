@@ -41,9 +41,10 @@ export default function PdfIframeModal() {
                     </div>
                     <button
                         onClick={close}
-                        className="cursor-pointer p-3 rounded-2xl hover:bg-muted/80 backdrop-blur-sm transition-all group hover:scale-110 shrink-0"
+                        aria-label="Close"
+                        className="cursor-pointer p-3 rounded-2xl hover:bg-muted/80 backdrop-blur-sm transition-all group hover:scale-110 shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
-                        <span className="text-xl group-hover:scale-110 transition-transform">✕</span>
+                        <span className="text-xl group-hover:scale-110 transition-transform" aria-hidden="true">✕</span>
                     </button>
                 </div>
 
@@ -51,6 +52,7 @@ export default function PdfIframeModal() {
                 <div className="flex-1 min-h-60 md:min-h-160 h-full relative">
                     <iframe
                         src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+                        title={certName ? `${certName} certificate PDF` : "Certificate PDF"}
                         className="absolute inset-0 w-full h-full border-0 shadow-2xl bg-linear-to-br from-muted/30 to-transparent"
                         allowFullScreen
                         loading="lazy"
@@ -61,9 +63,9 @@ export default function PdfIframeModal() {
                 <div className="p-6 rounded-b-3xl border-t border-border/50 flex flex-col sm:flex-row gap-3 justify-end bg-linear-to-r from-background/95 to-muted/50 shrink-0">  {/* shrink-0 */}
                     <button
                         onClick={close}
-                        className="cursor-pointer w-full sm:w-auto px-8 py-3 bg-linear-to-r from-secondary/90 to-muted/90 hover:from-secondary hover:to-muted text-foreground font-semibold rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all text-sm"
+                        className="cursor-pointer w-full sm:w-auto px-8 py-3 bg-linear-to-r from-secondary/90 to-muted/90 hover:from-secondary hover:to-muted text-foreground font-semibold rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
-                        Chiudi
+                        Close
                     </button>
                 </div>
             </div>

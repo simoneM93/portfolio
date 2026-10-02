@@ -51,10 +51,13 @@ async function fetchAllRepoLanguages(url: string): Promise<RepoLanguages> {
 
 export const getGithubRepos = unstable_cache(
     async () => {
-        const repos = await fetchAllRepos();
+        // Skip forks, archived repos and the profile README repo (thin/duplicate pages)
+        const repos = (await fetchAllRepos()).filter(
+            (r) => !r.fork && !r.archived && r.name.toLowerCase() !== GITHUB_USERNAME.toLowerCase()
+        );
 
         const response = await Promise.all(repos.map(async (repo) => {
-            var languages = await fetchAllRepoLanguages(repo.languages_url);
+            const languages =await fetchAllRepoLanguages(repo.languages_url);
             return {
                 ...repo,
                 languages: languages,
@@ -67,8 +70,30 @@ export const getGithubRepos = unstable_cache(
     ["github-repos"],
     {
         tags: ["github"],
+        revalidate: 86400,
     }
 );
+
+export async function getRepoReadmeHtml(repoName: string): Promise<string | null> {
+    const res = await fetch(
+        `https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}/readme`,
+        {
+            headers: {
+                Accept: "application/vnd.github.html+json",
+                ...(GITHUB_TOKEN && {
+                    Authorization: `Bearer ${GITHUB_TOKEN}`,
+                }),
+            },
+            next: { revalidate: 86400 },
+        }
+    );
+
+    // ponytail: no README is normal, page renders without it.
+    // Relative image/link paths in READMEs won't resolve here; use absolute URLs in READMEs.
+    if (!res.ok) return null;
+    // Page already has its own h1
+    return (await res.text()).replace(/<(\/?)h1\b/g, "<$1h2");
+}
 
 function getTotalBytes(languages: RepoLanguages): number {
   return Object.values(languages).reduce((sum, bytes) => sum + bytes, 0);

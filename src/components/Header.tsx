@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface HeaderProps {
     title: string;
-    subTitle: React.ReactNode;
+    subTitle?: React.ReactNode;
     showHomeButton?: boolean;
 }
 
@@ -18,9 +18,11 @@ export default function Header({ title, subTitle, showHomeButton = true }: Heade
             <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
                 {title}
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                {subTitle}
-            </p>
+            {subTitle && (
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  {subTitle}
+              </p>
+            )}
         </div>
     );
 }

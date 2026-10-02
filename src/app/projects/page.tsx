@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "@/components/Header";
 import {
     Card,
@@ -14,13 +15,17 @@ import RepoCard from "@/components/projects/RepoCard";
 import GitHubOverviewCard from "@/components/projects/GitHubOverviewCard";
 import { Metadata } from "next";
 import { getLanguageColor } from "@/lib/githubColors";
+import { baseOpenGraph, SITE_URL } from "@/lib/seo";
 
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-    title: "Projects - Simone Marano Full-Stack Developer",
+    title: "Projects",
     description:
-        "A selection of professional projects built with modern technologies.",
+        "Open source projects by Simone Marano: ASP.NET Core libraries, Next.js and TypeScript apps. Source code, languages and live demos.",
+    alternates: {
+        canonical: "https://portfolio.simonemarano.com/projects",
+    },
     keywords: [
         "Next.js projects",
         "MuleSoft projects",
@@ -28,8 +33,10 @@ export const metadata: Metadata = {
         "Salesforce developer",
     ],
     openGraph: {
-        title: "My Projects | Simone Marano Portfolio",
-        description: "Portfolio of full-stack enterprise projects.",
+        ...baseOpenGraph,
+        url: `${SITE_URL}/projects`,
+        title: "Projects | Simone Marano Portfolio",
+        description: "Open source projects by Simone Marano: ASP.NET Core libraries, Next.js and TypeScript apps.",
     },
 };
 
@@ -63,7 +70,20 @@ export default async function ProjectsPage() {
         .sort((a, b) => b.bytes - a.bytes);
 
     return (
-        <div className="min-h-screen py-24 px-4 bg-background">
+        <div id="main-content" className="min-h-screen py-24 px-4 bg-background">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://portfolio.simonemarano.com" },
+                            { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://portfolio.simonemarano.com/projects" }
+                        ]
+                    })
+                }}
+            />
             <div className="container mx-auto max-w-7xl">
                 <Header title="Projects" subTitle={<>A selection of <strong>professional</strong> projects built with modern technologies.</>} />
 
@@ -105,6 +125,13 @@ export default async function ProjectsPage() {
                         </Card>
                     </div>
                 </div>
+            </div>
+            <div className="container mx-auto max-w-7xl mt-12 text-center text-muted-foreground">
+                <p>Want to know the technologies behind these projects?{' '}
+                    <Link href="/skills" className="text-primary hover:underline font-medium">
+                        Skills &amp; Certifications →
+                    </Link>
+                </p>
             </div>
             <ScrollToTopButton />
         </div>

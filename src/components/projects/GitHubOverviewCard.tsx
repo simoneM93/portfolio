@@ -6,7 +6,7 @@ export default function GitHubOverviewCard({ reposCount }: { reposCount: number 
             <CardHeader>
                 <CardTitle>GitHub Overview</CardTitle>
                 <CardDescription>
-                    Activity summary
+                    Public repositories on GitHub
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">

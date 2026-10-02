@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import PdfModalProvider from "@/components/PdfModalProvider";
 import { Analytics } from "@vercel/analytics/next"
+import Nav from "@/components/Nav";
+import { PERSON_ID, SITE_URL } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,20 +37,17 @@ export const metadata: Metadata = {
   creator: "Simone Marano",
   openGraph: {
     type: "website",
-    locale: "it_IT",
+    locale: "en_US",
     url: "https://portfolio.simonemarano.com",
     siteName: "Simone Marano - Full-Stack Developer",
     title: "Simone Marano - Full-Stack Developer",
     description:
       "Portfolio of Simone Marano: Next.js, TypeScript, .NET Core, MuleSoft and enterprise integrations.",
-    images: [
-      {
-        url: "/profile.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Simone Marano - Full-Stack Developer Portfolio",
-      },
-    ]
+  },
+  // title/description omitted: Next falls back to each page's openGraph
+  twitter: {
+    card: "summary_large_image",
+    creator: "@simonemarano",
   },
   robots: {
     index: true,
@@ -62,7 +61,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "zgA5Hi3fJI0yUsD5XenxN853GX09P77T",
+    google: ["zgA5Hi3fJI0yUsD5XenxN853GX09P77T", "hJzt8VqUIiSJSkUy5E74p3GO53ah4WZMk3CSLLqy_w0"],
   },
   icons: {
     icon: '/favicon.ico',
@@ -78,12 +77,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <meta name="google-site-verification" content="hJzt8VqUIiSJSkUy5E74p3GO53ah4WZMk3CSLLqy_w0" />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Simone Marano - Full-Stack Developer",
+              "url": SITE_URL,
+              "description": "Portfolio of Simone Marano, Full-Stack Developer from Catania, Sicily.",
+              "author": { "@id": PERSON_ID },
+            })
+          }}
+        />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:font-medium"
+        >
+          Skip to content
+        </a>
+        <Nav />
         {children}
         <Analytics />
         <PdfModalProvider />

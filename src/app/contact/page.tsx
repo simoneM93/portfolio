@@ -1,21 +1,28 @@
 import { BiLogoGmail } from "react-icons/bi";
 import { FaPhoneAlt, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa6";
+import { Share2 } from "lucide-react";
 
 import Header from "@/components/Header";
 import type { Contact } from "@/server/schema/contact";
 import { getContact } from "@/server/queries/contact";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { Metadata } from "next";
+import { baseOpenGraph, PERSON_ID, SITE_URL } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Contact - Simone Marano Full-Stack Developer",
+  title: "Contact",
   description:
-    "Contact me for Next.js, .NET Core or MuleSoft integration projects. Available for remote work from Catania, Sicily.",
+    "Contact Simone Marano — Full-Stack Developer available for remote work. Specialized in Next.js, TypeScript, .NET Core and MuleSoft integrations. Based in Catania, Sicily.",
+  alternates: {
+    canonical: "https://portfolio.simonemarano.com/contact",
+  },
   openGraph: {
-    title: "Contact Me | Simone Marano - Full-Stack Developer",
+    ...baseOpenGraph,
+    url: `${SITE_URL}/contact`,
+    title: "Contact | Simone Marano - Full-Stack Developer",
     description: "Hire Simone Marano for enterprise full-stack development.",
   },
 };
@@ -24,7 +31,31 @@ export default async function ContactPage() {
   const contact: Contact = await getContact();
 
   return (
-    <div className="min-h-screen py-24 px-4 bg-background">
+    <div id="main-content" className="min-h-screen py-24 px-4 bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://portfolio.simonemarano.com" },
+              { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://portfolio.simonemarano.com/contact" }
+            ]
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "url": `${SITE_URL}/contact`,
+            "mainEntity": { "@id": PERSON_ID },
+          })
+        }}
+      />
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <Header
@@ -90,7 +121,7 @@ export default async function ContactPage() {
             <Card className="w-full border-border/50 shadow-xl hover:shadow-2xl transition-all duration-500">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-2xl">
-                  <BiLogoGmail className="h-8 w-8 text-secondary" />
+                  <Share2 className="h-8 w-8 text-secondary" />
                   Social & Messaging
                 </CardTitle>
                 <CardDescription>
@@ -101,6 +132,7 @@ export default async function ContactPage() {
                 {/* LinkedIn */}
                 <a
                   href={contact.linkedin_url}
+                  aria-label="LinkedIn profile (opens in new tab)"
                   className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -114,6 +146,7 @@ export default async function ContactPage() {
                 {/* WhatsApp */}
                 <a
                   href={contact.whatsapp_url}
+                  aria-label="WhatsApp (opens in new tab)"
                   className="group p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/20 hover:border-emerald-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -127,6 +160,7 @@ export default async function ContactPage() {
                 {/* Telegram */}
                 <a
                   href={contact.telegram_url}
+                  aria-label="Telegram (opens in new tab)"
                   className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -140,6 +174,7 @@ export default async function ContactPage() {
                 {/* Instagram */}
                 <a
                   href={contact.instagram_url}
+                  aria-label="Instagram profile (opens in new tab)"
                   className="group p-6 rounded-2xl bg-gradient-to-br from-pink-500/10 to-purple-500/10 border border-pink-500/20 hover:border-pink-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -153,6 +188,7 @@ export default async function ContactPage() {
                 {/* Facebook */}
                 <a
                   href={contact.facebook_url}
+                  aria-label="Facebook profile (opens in new tab)"
                   className="group p-6 rounded-2xl bg-gradient-to-br from-blue-600/10 to-blue-700/10 border border-blue-600/20 hover:border-blue-600/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
                   target="_blank"
                   rel="noopener noreferrer"
