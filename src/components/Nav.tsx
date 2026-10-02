@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Logo from './Logo';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -18,10 +19,11 @@ export default function Nav() {
       <div className="container mx-auto max-w-7xl px-4 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-bold text-foreground hover:text-primary transition-colors tracking-wide"
+          className="group flex items-center gap-2 font-semibold text-foreground"
           aria-label="Simone Marano — home"
         >
-          SM
+          <Logo className="h-8 w-8 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />
+          <span className="hidden lg:inline">Simone Marano</span>
         </Link>
         <ul className="flex items-center gap-1" role="list">
           {links.map(({ href, label }) => (
