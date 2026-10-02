@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import Header from "@/components/Header";
-import { Badge } from "@/components/ui/badge";
+import { Award, Calendar, ShieldCheck } from "lucide-react";
 import ViewCertButton from "@/components/skills/ViewCertButton";
 import { getCategoriesWithSkillsAndCerts } from "@/server/queries/skill";
 
@@ -37,6 +37,19 @@ export const metadata: Metadata = {
   },
 };
 
+// Self-rated % reads as arbitrary to recruiters; show a coarse tier instead
+function skillTier(level: number) {
+  if (level >= 80) return { label: "Expert", bars: 3 };
+  if (level >= 60) return { label: "Advanced", bars: 2 };
+  return { label: "Familiar", bars: 1 };
+}
+
+function formatIssued(issued: string) {
+  const date = new Date(issued);
+  return isNaN(date.getTime())
+    ? issued
+    : date.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+}
 
 export default async function SkillsPage() {
   const categoryWithSkillsAndCerts: CategoryWithSkillsAndCerts[] = await getCategoriesWithSkillsAndCerts();
@@ -90,124 +103,100 @@ export default async function SkillsPage() {
         />
 
         {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           {categoryWithSkillsAndCerts.map((group, idx) => (
-            <div
+            <section
               key={group.category.id}
-              className="space-y-6 animate-in fade-in-50 slide-in-from-bottom-4 p-6 rounded-2xl border border-border/30 hover:border-primary/50 bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-500"
+              aria-labelledby={`cat-${group.category.id}`}
+              className="space-y-5 animate-in fade-in-50 slide-in-from-bottom-4 p-6 rounded-2xl border border-border bg-card/50"
               style={{ animationDelay: `${idx * 150}ms` }}
             >
-              {/* Categoria */}
-              <div className="flex items-center gap-3 pb-4 border-b border-border/50">
-                <div className="w-2 h-8 bg-linear-to-b from-primary to-secondary rounded-full" />
-                <h2 className="text-xl font-bold text-foreground">
-                  {group.category.name}
-                </h2>
-              </div>
+              <h2 id={`cat-${group.category.id}`} className="flex items-center gap-3 pb-4 border-b border-border text-xl font-bold">
+                <span className="w-1 h-6 bg-primary rounded-full" aria-hidden="true" />
+                {group.category.name}
+              </h2>
 
-              {/* Skills */}
-              <div className="space-y-4">
+              <ul className="space-y-4">
                 {group.skills
                   .sort((a, b) => b.skill.level - a.skill.level)
-                  .map((item) => (
-                    <div key={item.skill.name} className="group">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="flex items-center gap-2 font-semibold text-foreground">
-                          <DynamicIcon iconName={item.skill.icon_name} className="text-3xl" style={{ color: item.skill.icon_color ?? "white" }} />
-                          <span className="text-lg"></span>
+                  .map((item) => {
+                    const tier = skillTier(item.skill.level);
+                    return (
+                      <li key={item.skill.name} className="flex justify-between items-center gap-3">
+                        <span className="flex items-center gap-3 font-semibold text-foreground">
+                          <DynamicIcon iconName={item.skill.icon_name} className="text-2xl shrink-0" style={{ color: item.skill.icon_color ?? "currentColor" }} />
                           {item.skill.name}
                         </span>
-                        <div className="flex items-center gap-1">
-                          <Badge
-                            variant="outline"
-                            className="text-xs px-2.5 py-1"
-                          >
-                            {item.skill.level}%
-                          </Badge>
-                        </div>
-                      </div>
-                      <div
-                        role="progressbar"
-                        aria-valuenow={item.skill.level}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label={item.skill.name}
-                        className="w-full bg-muted/50 rounded-full h-2.5 group-hover:h-3 transition-all duration-500 overflow-hidden shadow-sm"
-                      >
-                        <div
-                          className="h-full rounded-full bg-linear-to-r from-primary to-secondary shadow-md transition-all duration-700"
-                          style={{ width: `${item.skill.level}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
+                        <span className="flex items-center gap-2 text-xs text-muted-foreground shrink-0">
+                          {tier.label}
+                          <span className="flex gap-0.5" aria-hidden="true">
+                            {[1, 2, 3].map((n) => (
+                              <span key={n} className={`h-3 w-1.5 rounded-sm ${n <= tier.bars ? "bg-primary" : "bg-muted"}`} />
+                            ))}
+                          </span>
+                        </span>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </section>
           ))}
         </div>
 
         {/* Certifications Grid */}
-        <div className="text-center mb-24">
-          <h2 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
-            Certifications
-          </h2>
-        </div>
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">
+          Certifications
+        </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-20">
           {certifications.map((cert, idx) => (
-            <div
+            <article
               key={cert.name}
-              className="group relative overflow-hidden rounded-2xl p-8 border-2 border-border/30 hover:border-primary/60 bg-linear-to-br from-card/80 to-muted/50 backdrop-blur-sm hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 hover:-translate-y-2 animate-in fade-in-30 slide-in-from-bottom-2"
+              className="group relative overflow-hidden rounded-2xl p-6 border border-border hover:border-primary/40 bg-card/50 transition-colors duration-300 animate-in fade-in-30 slide-in-from-bottom-2 flex flex-col"
               style={{ animationDelay: `${idx * 100}ms` }}
             >
-              {/* Background Gradient */}
-              <div className={`absolute inset-0 ${cert.color} opacity-20 group-hover:opacity-40 transition-opacity`} />
+              <div className={`absolute inset-0 ${cert.color} opacity-10 group-hover:opacity-20 transition-opacity`} aria-hidden="true" />
 
-              {/* Icon Emoji */}
-              <div className="relative z-10 mb-6 p-4 transition-all mx-auto w-20 h-20">
+              <div className="relative mb-5 mx-auto w-16 h-16">
                 <Image
                   src={cert.icon_url}
-                  alt={cert.name}
+                  alt=""
                   fill
-                  sizes="80px"
-                  className="object-cover brightness-110 saturate-110 rounded-xl"
+                  sizes="64px"
+                  className="object-cover rounded-xl"
                 />
               </div>
 
-              {/* Nome Certificazione */}
-              <h3 className="text-xl font-bold text-foreground mb-3 text-center relative z-10 leading-tight">
+              <h3 className="relative text-lg font-bold text-foreground mb-3 text-center leading-tight">
                 {cert.name}
               </h3>
 
-              {/* Dettagli */}
-              <div className="space-y-2 mb-8 relative z-10 text-center text-sm text-muted-foreground">
+              <dl className="relative space-y-1.5 mb-6 text-center text-sm text-muted-foreground">
                 <div className="flex items-center justify-center gap-2">
-                  <span className="text-lg" aria-hidden="true">🏆</span>
-                  {cert.issuer}
+                  <dt className="sr-only">Issuer</dt>
+                  <Award className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <dd>{cert.issuer}</dd>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-xs opacity-75">
-                  <span aria-hidden="true">📅</span>
-                  {cert.issued}
+                <div className="flex items-center justify-center gap-2 text-xs">
+                  <dt className="sr-only">Issued</dt>
+                  <Calendar className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  <dd>{formatIssued(cert.issued)}</dd>
                 </div>
-              </div>
+              </dl>
 
-              {/* CTA Buttons */}
-              <div className="relative z-10 pt-4 flex flex-col gap-3 ">
-
-                {/* Verifica */}
+              <div className="relative mt-auto flex flex-col gap-2">
                 <a
                   href={cert.verify_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 px-3 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-primary/20 backdrop-blur-sm text-sm text-center"
+                  aria-label={`Verify ${cert.name} on ${cert.issuer} (opens in new tab)`}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors text-sm"
                 >
-                  <span aria-hidden="true">🔍</span> Verify on {cert.issuer}
+                  <ShieldCheck className="h-4 w-4" aria-hidden="true" /> Verify
                 </a>
-
-                {/* Visualizza PDF */}
                 <ViewCertButton pdfUrl={cert.pdf_url} certName={cert.name} iconUrl={cert.icon_url} />
               </div>
-            </div>
+            </article>
           ))}
         </div>
       <div className="text-center mt-12 text-muted-foreground">

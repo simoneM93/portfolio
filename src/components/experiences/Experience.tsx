@@ -38,7 +38,7 @@ export default async function Experience() {
         Experience & Education
       </h2>
 
-      <div className="max-w-3xl mx-auto space-y-10 md:space-y-14">
+      <ol className="max-w-3xl mx-auto border-l border-border space-y-10 md:space-y-14">
         {experiences.map((experience) => (
           <ExperienceItem
             key={experience.id}
@@ -49,7 +49,7 @@ export default async function Experience() {
             bullets={experience.bullets}
           />
         ))}
-      </div>
+      </ol>
     </section>
   );
 }

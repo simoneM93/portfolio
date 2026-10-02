@@ -83,7 +83,7 @@ export default async function Hero() {
               Hi, I&apos;m
             </p>
 
-            <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent leading-tight">
               {profile.name} {profile.surname}
               <br />
               <span className="text-2xl md:text-4xl md:block font-normal text-muted-foreground">
@@ -106,21 +106,14 @@ export default async function Hero() {
               </Button>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-4 text-sm">
-              <span className="px-3 py-1.5 rounded-full border bg-card/40">
-                .NET Core
-              </span>
-              <span className="px-3 py-1.5 rounded-full border bg-card/40">C#</span>
-              <span className="px-3 py-1.5 rounded-full border bg-card/40">
-                Salesforce Commerce Cloud
-              </span>
-              <span className="px-3 py-1.5 rounded-full border bg-card/40">
-                MuleSoft
-              </span>
-              <span className="px-3 py-1.5 rounded-full border bg-card/40">
-                React / Next.js
-              </span>
-            </div>
+            {/* Complements the intro paragraph instead of repeating it */}
+            <ul className="flex flex-wrap gap-2 pt-4 text-sm text-muted-foreground" aria-label="Also working with">
+              {['C#', 'Salesforce Commerce Cloud', 'MuleSoft', 'PostgreSQL'].map((tech) => (
+                <li key={tech} className="px-3 py-1.5 rounded-full border bg-card/40">
+                  {tech}
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Single image: circle above the text on mobile, framed portrait on the right on desktop */}

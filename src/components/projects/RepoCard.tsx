@@ -9,7 +9,7 @@ export default function RepoCard({ repo }: { repo: GitHubRepoWithLanguages }) {
     return (
         <Card
             key={repo.id}
-            className="border-border/50 shadow-xl hover:shadow-2xl transition-all duration-500"
+            className="h-full border-border hover:border-foreground/30 transition-colors duration-300"
         >
             <CardHeader>
                 <h2 data-slot="card-title" className="leading-none font-semibold flex items-center justify-between gap-4">
@@ -26,10 +26,10 @@ export default function RepoCard({ repo }: { repo: GitHubRepoWithLanguages }) {
                 )}
             </CardHeader>
 
-            <CardContent className="space-y-4">
-                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <CardContent className="mt-auto space-y-4">
+                <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
                     {repo.languages &&
-                        Object.entries(repo.languages).map(async ([language, usage_bytes]) => {
+                        Object.entries(repo.languages).sort((a, b) => b[1] - a[1]).map(async ([language, usage_bytes]) => {
                             const color = await getLanguageColor(language)
                             const percentage = ((usage_bytes / repo.totalBytes) * 100).toFixed(1);
 
@@ -65,7 +65,7 @@ export default function RepoCard({ repo }: { repo: GitHubRepoWithLanguages }) {
                 <div className="flex flex-wrap gap-3 pt-2">
                     <Link
                         href={`/projects/${repo.name}`}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-[1.05]"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium transition-all duration-300 hover:bg-primary/90 "
                     >
                         Details
                     </Link>
@@ -74,7 +74,7 @@ export default function RepoCard({ repo }: { repo: GitHubRepoWithLanguages }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`View ${repo.name} repository on GitHub (opens in new tab)`}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-lg text-primary font-medium transition-all duration-300 hover:scale-[1.05] group"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-lg text-primary font-medium transition-all duration-300  group"
                     >
                         GitHub
                         <FiExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />

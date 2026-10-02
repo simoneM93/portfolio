@@ -1,7 +1,8 @@
 import { BiLogoGmail } from "react-icons/bi";
 import { FaPhoneAlt, FaTelegram, FaWhatsapp } from "react-icons/fa";
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa6";
-import { Share2 } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import { Mail, Share2 } from "lucide-react";
+import CopyButton from "@/components/CopyButton";
 
 import Header from "@/components/Header";
 import type { Contact } from "@/server/schema/contact";
@@ -29,6 +30,13 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const contact: Contact = await getContact();
+
+  const socials = [
+    { href: contact.linkedin_url, label: "LinkedIn", Icon: FaLinkedin, color: "text-sky-400" },
+    { href: `https://github.com/${process.env.GITHUB_USERNAME}`, label: "GitHub", Icon: FaGithub, color: "text-foreground" },
+    { href: contact.whatsapp_url, label: "WhatsApp", Icon: FaWhatsapp, color: "text-emerald-400" },
+    { href: contact.telegram_url, label: "Telegram", Icon: FaTelegram, color: "text-sky-400" },
+  ];
 
   return (
     <div id="main-content" className="min-h-screen py-24 px-4 bg-background">
@@ -67,140 +75,78 @@ export default async function ContactPage() {
           }
         />
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Contatti Diretti */}
-          <div className="space-y-8 animate-in fade-in-50 duration-700">
-            <Card className="w-full h-fit border-border/50 shadow-xl hover:shadow-2xl transition-all duration-500">
-              <CardHeader className="pb-6">
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <FaPhoneAlt className="h-8 w-8 text-primary" />
-                  Direct Contact
-                </CardTitle>
-                <CardDescription>
-                  Reach me on email or chat
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Email */}
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted/70 transition-all">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <BiLogoGmail className="h-6 w-6 text-red-500" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">Email</p>
-                    <a
-                      href={`mailto:${contact.email}`}
-                      className="text-primary hover:underline font-medium"
-                    >
-                      {contact.email}
-                    </a>
-                  </div>
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
+          <Card className="w-full border-border animate-in fade-in-50 duration-700">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl">
+                <Mail className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
+                Direct Contact
+              </CardTitle>
+              <CardDescription>
+                Reach me by email or phone
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/50">
+                <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center shrink-0">
+                  <BiLogoGmail className="h-6 w-6 text-red-400" aria-hidden="true" />
                 </div>
-
-                {/* Telefono */}
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted/70 transition-all">
-                  <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-                    <FaPhoneAlt className="h-6 w-6 text-emerald-500" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">Phone</p>
-                    <a
-                      href={`tel:${contact.phone}`}
-                      className="text-emerald-500 hover:underline font-medium"
-                    >
-                      {contact.phone}
-                    </a>
-                  </div>
+                <div className="min-w-0">
+                  <p className="font-semibold text-foreground">Email</p>
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="text-muted-foreground hover:text-foreground hover:underline font-medium break-all"
+                  >
+                    {contact.email}
+                  </a>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+                <CopyButton value={contact.email} label="Copy email address" />
+              </div>
 
-          <div className="space-y-6 animate-in fade-in-70 duration-1000">
-            {/* Social Icons */}
-            <Card className="w-full border-border/50 shadow-xl hover:shadow-2xl transition-all duration-500">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <Share2 className="h-8 w-8 text-secondary" />
-                  Social & Messaging
-                </CardTitle>
-                <CardDescription>
-                  Contact me on social platforms too
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-                {/* LinkedIn */}
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/50">
+                <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center shrink-0">
+                  <FaPhoneAlt className="h-5 w-5 text-emerald-400" aria-hidden="true" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-semibold text-foreground">Phone</p>
+                  <a
+                    href={`tel:${contact.phone}`}
+                    className="text-muted-foreground hover:text-foreground hover:underline font-medium"
+                  >
+                    {contact.phone}
+                  </a>
+                </div>
+                <CopyButton value={contact.phone} label="Copy phone number" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="w-full border-border animate-in fade-in-70 duration-1000">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl">
+                <Share2 className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
+                Profiles & Messaging
+              </CardTitle>
+              <CardDescription>
+                Find my work or message me directly
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {socials.map(({ href, label, Icon, color }) => (
                 <a
-                  href={contact.linkedin_url}
-                  aria-label="LinkedIn profile (opens in new tab)"
-                  className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
+                  key={label}
+                  href={href}
+                  aria-label={`${label} (opens in new tab)`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="group p-5 rounded-2xl bg-muted/50 border border-border hover:border-foreground/30 hover:bg-muted transition-colors flex flex-col items-center gap-3"
                 >
-                  <FaLinkedin className="h-10 w-10 text-blue-700 group-hover:scale-110 transition-transform" />
-                  <span className="font-semibold text-sm text-foreground">
-                    LinkedIn
-                  </span>
+                  <Icon className={`h-9 w-9 ${color} group-hover:scale-110 transition-transform motion-reduce:transition-none`} aria-hidden="true" />
+                  <span className="font-semibold text-sm text-foreground">{label}</span>
                 </a>
-
-                {/* WhatsApp */}
-                <a
-                  href={contact.whatsapp_url}
-                  aria-label="WhatsApp (opens in new tab)"
-                  className="group p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/20 hover:border-emerald-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaWhatsapp className="h-10 w-10 text-emerald-500 group-hover:scale-110 transition-transform" />
-                  <span className="font-semibold text-sm text-foreground">
-                    WhatsApp
-                  </span>
-                </a>
-
-                {/* Telegram */}
-                <a
-                  href={contact.telegram_url}
-                  aria-label="Telegram (opens in new tab)"
-                  className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaTelegram className="h-10 w-10 text-blue-500 group-hover:scale-110 transition-transform" />
-                  <span className="font-semibold text-sm text-foreground">
-                    Telegram
-                  </span>
-                </a>
-
-                {/* Instagram */}
-                <a
-                  href={contact.instagram_url}
-                  aria-label="Instagram profile (opens in new tab)"
-                  className="group p-6 rounded-2xl bg-gradient-to-br from-pink-500/10 to-purple-500/10 border border-pink-500/20 hover:border-pink-500/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaInstagram className="h-10 w-10 text-pink-500 group-hover:scale-110 transition-transform" />
-                  <span className="font-semibold text-sm text-foreground">
-                    Instagram
-                  </span>
-                </a>
-
-                {/* Facebook */}
-                <a
-                  href={contact.facebook_url}
-                  aria-label="Facebook profile (opens in new tab)"
-                  className="group p-6 rounded-2xl bg-gradient-to-br from-blue-600/10 to-blue-700/10 border border-blue-600/20 hover:border-blue-600/40 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col items-center gap-3"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaFacebook className="h-10 w-10 text-blue-600 group-hover:scale-110 transition-transform" />
-                  <span className="font-semibold text-sm text-foreground">
-                    Facebook
-                  </span>
-                </a>
-              </CardContent>
-            </Card>
-          </div>
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

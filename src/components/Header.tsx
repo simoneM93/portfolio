@@ -1,25 +1,16 @@
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-
 interface HeaderProps {
     title: string;
     subTitle?: React.ReactNode;
-    showHomeButton?: boolean;
 }
 
-export default function Header({ title, subTitle, showHomeButton = true }: HeaderProps) {
+export default function Header({ title, subTitle }: HeaderProps) {
     return (
-        <div className="text-center mb-24 animate-in fade-in-30 duration-1000">
-            {showHomeButton &&
-            <Link href="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold mb-8 group">
-                <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-                Home
-            </Link>}
-            <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+        <div className="text-center mb-12 md:mb-16 animate-in fade-in-30 duration-1000">
+            <h1 className="text-4xl md:text-6xl font-bold bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent mb-6 leading-tight">
                 {title}
             </h1>
             {subTitle && (
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                   {subTitle}
               </p>
             )}

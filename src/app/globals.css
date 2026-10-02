@@ -125,12 +125,6 @@
   }
 }
 
-body.overflow-hidden,
-html.overflow-hidden {
-  padding-right: var(--scrollbar-width, 0px);
-  margin-right: var(--scrollbar-width, 0px);
-}
-
 /* GitHub-rendered README (no typography plugin) */
 @layer components {
   .readme { @apply text-muted-foreground leading-relaxed space-y-4 break-words; }
@@ -146,10 +140,4 @@ html.overflow-hidden {
   .readme img { @apply inline max-w-full; }
   .readme table { @apply block overflow-x-auto text-sm; }
   .readme th, .readme td { @apply border border-border px-3 py-1; }
-}
-
-@layer utilities {
-  .overscroll-none {
-    overscroll-behavior: none;
-  }
 }

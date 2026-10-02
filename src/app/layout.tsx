@@ -4,6 +4,7 @@ import "./globals.css";
 import PdfModalProvider from "@/components/PdfModalProvider";
 import { Analytics } from "@vercel/analytics/next"
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import { PERSON_ID, SITE_URL } from "@/lib/seo";
 
 const geistSans = Geist({
@@ -101,6 +102,7 @@ export default function RootLayout({
         </a>
         <Nav />
         {children}
+        <Footer />
         <Analytics />
         <PdfModalProvider />
       </body>

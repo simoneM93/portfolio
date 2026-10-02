@@ -29,7 +29,7 @@ export default function Nav() {
               <Link
                 href={href}
                 aria-current={pathname === href ? 'page' : undefined}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-2.5 sm:px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   pathname === href
                     ? 'bg-primary/10 text-primary'
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'

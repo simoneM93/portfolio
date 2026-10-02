@@ -138,7 +138,7 @@ export default async function ProjectDetailPage({
                 <div className="text-center mb-12 animate-in fade-in-30 duration-1000">
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <FaGithub className="h-8 w-8 text-muted-foreground" aria-hidden="true" />
-                        <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
                             {repo.name}
                         </h1>
                     </div>
