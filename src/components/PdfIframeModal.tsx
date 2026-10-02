@@ -1,7 +1,11 @@
 'use client';
 import { usePdfModal } from '@/lib/usePdfModal';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+
+// pdf.js needs browser APIs (DOMMatrix, workers): never render it on the server
+const PdfViewer = dynamic(() => import('./PdfViewer'), { ssr: false });
 
 export default function PdfIframeModal() {
     const { pdfUrl, certName, iconUrl, close } = usePdfModal();
@@ -24,13 +28,7 @@ export default function PdfIframeModal() {
                 </div>
 
                 {pdfUrl && (
-                    <iframe
-                        // ponytail: Google viewer kept because mobile browsers don't render PDFs in iframes
-                        src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-                        title={certName ? `${certName} certificate PDF` : 'Certificate PDF'}
-                        className="flex-1 w-full border-0 bg-muted/30"
-                        allowFullScreen
-                    />
+                    <PdfViewer url={pdfUrl} title={certName ? `${certName} certificate PDF` : 'Certificate PDF'} />
                 )}
             </DialogContent>
         </Dialog>

@@ -12,6 +12,6 @@ export const usePdfModal = create<PdfModalState>((set) => ({
   pdfUrl: null,
   certName: null,
   iconUrl: null,
-  open: (url: string, certName: string, iconUrl: string) => set({ pdfUrl: `${url}#toolbar=0&navpanes=0&view=FitH`, certName, iconUrl }),
+  open: (url: string, certName: string, iconUrl: string) => set({ pdfUrl: url, certName, iconUrl }),
   close: () => set({ pdfUrl: null }),
 }));
